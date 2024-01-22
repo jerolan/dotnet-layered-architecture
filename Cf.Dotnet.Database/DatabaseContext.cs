@@ -40,8 +40,12 @@ public class DatabaseContext : DbContext
             productName: "Test Product 1",
             unitPrice: 10,
             units: 1);
+        var order = new Order(
+            id: 1,
+            buyerId: 1);
         
         modelBuilder.Entity<Buyer>().HasData(buyer);
         modelBuilder.Entity<OrderItem>().HasData(orderItem);
+        modelBuilder.Entity<Order>().HasData(order);
     }
 }

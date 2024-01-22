@@ -6,8 +6,9 @@ namespace Cf.Dotnet.Architecture.Domain.Entities;
 
 public class Order : IEntity
 {
-    public Order(int buyerId)
+    public Order(int id, int buyerId)
     {
+        this.Id = id;
         this.OrderStatus = OrderStatus.Created;
         this.BuyerId = buyerId;
     }
