@@ -1,27 +1,25 @@
 using System.Collections;
 using Cf.Dotnet.Architecture.Application.Models;
+using Cf.Dotnet.Architecture.Application.Queries;
 using Cf.Dotnet.Database;
+using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cf.Dotnet.Architecture.Application.Controllers;
 
 public class OrderSummaryController : Controller
 {
-    private readonly DatabaseContext _context;
+    private readonly IMediator _mediator;
     
-    public OrderSummaryController(DatabaseContext context)
+    public OrderSummaryController(IMediator mediator)
     {
-        _context = context;
+        _mediator = mediator;
     }
     
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var ordersSummaries = new List<OrdersSummary>
-        {
-            new OrdersSummary(1, "Item", 10, "Miguel")
-        };
-        
-        return View(ordersSummaries);
+       var ordersSummaries = await this._mediator.Send(new GetOrdersSummaryQuery());
+       return View(ordersSummaries);
     }
 
 }

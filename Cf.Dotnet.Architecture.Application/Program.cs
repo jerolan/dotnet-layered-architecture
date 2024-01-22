@@ -9,6 +9,7 @@ builder.Services.AddDatabase(builder.Configuration);
 // builder.Services.AddRepositories();
 // builder.Services.AddUnitOfWork();
 builder.Services.AddAutoMapper(config => config.AddProfile(typeof(BuyerProfile)));
+builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 var app = builder.Build();
 

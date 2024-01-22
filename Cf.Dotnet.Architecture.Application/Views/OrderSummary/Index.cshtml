@@ -4,16 +4,16 @@
     <thead>
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Id)
+            ID
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Estado
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Price)
+            Total
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.BuyerName)
+            Comprador
         </th>
     </tr>
     </thead>
@@ -22,8 +22,8 @@
     {
         <tr>
            <td>@item.Id</td>
-           <td>@item.Name</td>
-           <td>@item.Price</td>
+           <td>@item.Status</td>
+           <td>@item.Total</td>
            <td>@item.BuyerName</td>
         </tr>
     }

@@ -1,3 +1,5 @@
+using Cf.Dotnet.Architecture.Domain.Enums;
+
 namespace Cf.Dotnet.Architecture.Application.Models;
 
-public record OrdersSummary(int Id, string Name, decimal Price, string BuyerName);
+public sealed record OrdersSummary(int Id, OrderStatus Status, decimal Total, string BuyerName);
