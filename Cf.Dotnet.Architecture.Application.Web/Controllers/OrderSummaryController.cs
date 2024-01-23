@@ -1,5 +1,4 @@
-using Cf.Dotnet.Architecture.Application.Commands;
-using Cf.Dotnet.Architecture.Application.Queries;
+using Cf.Dotnet.Architecture.Application.Services;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +15,13 @@ public class OrderSummaryController : Controller
     
     public async Task<IActionResult> Index()
     {
-       var ordersSummaries = await this.mediator.Send(new GetOrdersSummaryQuery());
+       var ordersSummaries = await this.mediator.Send(new GetOrdersSummaryService());
        return View(ordersSummaries);
     }
 
     public async Task<IActionResult> OnPost(int id)
     {
-        await this.mediator.Send(new ReplaceOrderCommand(id));
+        await this.mediator.Send(new ConfirmOrderService(id));
         return RedirectToPage("./Index");
     }
 }

@@ -20,6 +20,7 @@
     <ItemGroup>
       <ProjectReference Include="..\Cf.Dotnet.Architecture.Domain\Cf.Dotnet.Architecture.Domain.csproj" />
       <ProjectReference Include="..\Cf.Dotnet.Architecture.Infrastructure.Abstractions\Cf.Dotnet.Architecture.Infrastructure.Abstractions.csproj" />
+      <ProjectReference Include="..\Cf.DotnetArchitecture.SeedWork\Cf.DotnetArchitecture.SeedWork.csproj" />
     </ItemGroup>
 
 </Project>

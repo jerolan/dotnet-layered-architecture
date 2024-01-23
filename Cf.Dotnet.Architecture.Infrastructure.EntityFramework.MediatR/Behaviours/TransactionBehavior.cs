@@ -1,4 +1,4 @@
-using Cf.Dotnet.Database;
+using Cf.Dotnet.Architecture.Infrastructure.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -6,10 +6,10 @@ using Microsoft.Extensions.Logging;
 public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
     private readonly ILogger<TransactionBehavior<TRequest, TResponse>> logger;
-    private readonly DatabaseContext dbContext;
+    private readonly IDatabaseContext dbContext;
 
     public TransactionBehavior(
-        DatabaseContext dbContext,
+        IDatabaseContext dbContext,
         ILogger<TransactionBehavior<TRequest, TResponse>> logger)
     {
         this.dbContext = dbContext;

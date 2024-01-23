@@ -3,18 +3,18 @@ using Cf.Dotnet.Database;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Cf.Dotnet.Architecture.Application.Queries;
+namespace Cf.Dotnet.Architecture.Application.Services;
 
-internal sealed class GetOrdersSummaryQueryHandler : IRequestHandler<GetOrdersSummaryQuery, List<OrdersSummary>>
+internal sealed class GetOrdersSummaryServiceHandler : IRequestHandler<GetOrdersSummaryService, List<OrdersSummary>>
 {
     private readonly DatabaseContext _context;
 
-    public GetOrdersSummaryQueryHandler(DatabaseContext context)
+    public GetOrdersSummaryServiceHandler(DatabaseContext context)
     {
         this._context = context;
     }
 
-    public async Task<List<OrdersSummary>> Handle(GetOrdersSummaryQuery request, CancellationToken cancellationToken)
+    public async Task<List<OrdersSummary>> Handle(GetOrdersSummaryService request, CancellationToken cancellationToken)
     {
        List<OrdersSummary> ordersSummaries = await this._context.Database.SqlQueryRaw<OrdersSummary>(
            sql: """

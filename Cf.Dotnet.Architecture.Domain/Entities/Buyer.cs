@@ -17,4 +17,8 @@ public class Buyer : IEntity
     public int Id { get; private set; }
 
     public string Name { get; private set; }
+    public decimal Balance { get; private set; }
+
+    public void UpdateBalance(decimal o)
+        => this.Balance -= o;
 }

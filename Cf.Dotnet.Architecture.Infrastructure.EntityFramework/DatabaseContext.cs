@@ -1,6 +1,8 @@
 ﻿using System.Data;
 using Cf.Dotnet.Architecture.Domain.Entities;
 using Cf.Dotnet.Architecture.Domain.SeedWork;
+using Cf.Dotnet.Architecture.Infrastructure.Abstractions;
+using Cf.Dotnet.Database.ModelConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 
@@ -10,7 +12,7 @@ namespace Cf.Dotnet.Database;
 /// Contexto de base de datos para la aplicación, utilizado para interactuar con la base de datos.
 /// Hereda de DbContext, una clase de Entity Framework Core que facilita el mapeo entre objetos y registros de base de datos.
 /// </summary>
-public class DatabaseContext : DbContext, IUnitOfWork
+public class DatabaseContext : DbContext, IUnitOfWork, IDatabaseContext
 {
     /// <summary>
     /// Constructor sin parámetros para el contexto de base de datos.
@@ -37,24 +39,11 @@ public class DatabaseContext : DbContext, IUnitOfWork
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var buyer = new Buyer(
-            id: 1,
-            name: "Test Buyer 1");
-        var orderItem = new OrderItem(
-            id: 1,
-            productId: 1,
-            productName: "Test Product 1",
-            unitPrice: 10,
-            units: 1);
-        var order = new Order(
-            id: 1,
-            buyerId: 1);
-        
-        modelBuilder.Entity<Buyer>().HasData(buyer);
-        modelBuilder.Entity<OrderItem>().HasData(orderItem);
-        modelBuilder.Entity<Order>().HasData(order);
+        modelBuilder.ApplyConfiguration(new OrderItemModelConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderModelConfiguration());
+        modelBuilder.ApplyConfiguration(new BuyerModelConfiguration());
     }
-
+    
     public async Task<IDbContextTransaction> BeginTransactionAsync()
     {
         this.currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);

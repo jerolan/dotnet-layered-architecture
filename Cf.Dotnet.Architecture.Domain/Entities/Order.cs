@@ -51,4 +51,20 @@ public class Order : IEntity
 
         OrderStatus = OrderStatus.Cancelled;
     }
+
+    public void ReassignToBuyer(Buyer buyer)
+        => this.BuyerId = buyer.Id;
+    
+    public decimal GetTotal()
+        => this.orderItems.Sum(o => o.Units * o.UnitPrice);
+
+    public void Confirm()
+    {
+        if (OrderStatus is OrderStatus.Shipped or OrderStatus.Cancelled)
+        {
+            throw new OrderingDomainException($"Not possible to cancel order in {OrderStatus} status");
+        }
+
+        OrderStatus = OrderStatus.Confirmed;
+    }
 }

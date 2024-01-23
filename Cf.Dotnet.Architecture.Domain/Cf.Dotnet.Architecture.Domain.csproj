@@ -6,4 +6,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Cf.DotnetArchitecture.SeedWork\Cf.DotnetArchitecture.SeedWork.csproj" />
+    </ItemGroup>
+
 </Project>

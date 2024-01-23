@@ -12,6 +12,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cf.Dotnet.Architecture.Infr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cf.Dotnet.Architecture.Infrastructure.EntityFramework.MediatR", "Cf.Dotnet.Architecture.Infrastructure.EntityFramework.MediatR\Cf.Dotnet.Architecture.Infrastructure.EntityFramework.MediatR.csproj", "{E8C908C7-999D-4AF4-88F0-6F1946F7830D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cf.DotnetArchitecture.SeedWork", "Cf.DotnetArchitecture.SeedWork\Cf.DotnetArchitecture.SeedWork.csproj", "{06560DA5-2457-48BB-8C91-EBE63F86A693}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,5 +44,9 @@ Global
 		{E8C908C7-999D-4AF4-88F0-6F1946F7830D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E8C908C7-999D-4AF4-88F0-6F1946F7830D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E8C908C7-999D-4AF4-88F0-6F1946F7830D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06560DA5-2457-48BB-8C91-EBE63F86A693}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06560DA5-2457-48BB-8C91-EBE63F86A693}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06560DA5-2457-48BB-8C91-EBE63F86A693}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06560DA5-2457-48BB-8C91-EBE63F86A693}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
