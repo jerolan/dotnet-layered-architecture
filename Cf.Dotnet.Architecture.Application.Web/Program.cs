@@ -1,15 +1,20 @@
+using Cf.Dotnet.Architecture.Application.Behaviours;
 using Cf.Dotnet.Architecture.Application.Mappers;
 using Cf.Dotnet.Database;
+using MediatR;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDatabase(builder.Configuration);
-// builder.Services.AddRepositories();
-// builder.Services.AddUnitOfWork();
+builder.Services.AddRepositories();
+builder.Services.AddUnitOfWork();
 builder.Services.AddAutoMapper(config => config.AddProfile(typeof(BuyerProfile)));
 builder.Services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(Program).Assembly));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidatorBehavior<,>));
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
 
 var app = builder.Build();
 

@@ -25,6 +25,12 @@
            <td>@item.Status</td>
            <td>@item.Total</td>
            <td>@item.BuyerName</td>
+           <td>
+               <form method="post">
+                   <input type="hidden" asp-for="@item.Id"/>
+                   <input type="submit" value="Remplazar" class="btn btn-danger"/>
+               </form>
+           </td>
         </tr>
     }
     </tbody>
