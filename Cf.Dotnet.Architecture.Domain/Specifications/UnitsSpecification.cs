@@ -7,7 +7,9 @@ public class UnitsSpecification : Specification<int>
 {
     private const int MinUnits = 0;
     private const int MaxUnits = 15;
-    
-    public override Expression<Func<int, bool>> ToExpression() 
-        => units => units > MinUnits && units <= MaxUnits;
+
+    public override Expression<Func<int, bool>> ToExpression()
+    {
+        return units => units > MinUnits && units <= MaxUnits;
+    }
 }

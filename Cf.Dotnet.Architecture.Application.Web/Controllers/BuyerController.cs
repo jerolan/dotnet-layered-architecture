@@ -10,17 +10,17 @@ public class BuyerController : Controller
 {
     private readonly IRepository<Buyer> buyerRepository;
     private readonly IMapper mapper;
-    
+
     public BuyerController(IRepository<Buyer> buyerRepository, IMapper mapper)
     {
         this.mapper = mapper;
         this.buyerRepository = buyerRepository;
     }
-    
+
     public async Task<ViewResult> Index()
     {
-        var result = await this.buyerRepository.ToListAsync();
-        var items = this.mapper.Map<List<BuyerModel>>(result);
+        var result = await buyerRepository.ToListAsync();
+        var items = mapper.Map<List<BuyerModel>>(result);
         return View(items);
     }
 }

@@ -21,7 +21,7 @@ using var host = builder.Build();
 var orderRepository = host.Services.GetRequiredService<IRepository<Order>>();
 var logger = host.Services.GetRequiredService<ILogger<Program>>();
 
-int id = Convert.ToInt32(Environment.GetCommandLineArgs()[1]);
+var id = Convert.ToInt32(Environment.GetCommandLineArgs()[1]);
 var order = await orderRepository.FindAsync(id);
 order.Cancel();
 

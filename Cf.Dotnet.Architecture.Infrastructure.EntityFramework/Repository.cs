@@ -5,28 +5,38 @@ namespace Cf.Dotnet.Database;
 
 public sealed class Repository<T> : IRepository<T> where T : class, IEntity
 {
-    private readonly DatabaseContext context;
-    
-    public IUnitOfWork UnitOfWork { get; }
+    private readonly DbSet<T> set;
 
     public Repository(DatabaseContext context, IUnitOfWork unitOfWork)
     {
-        this.context = context;
-        this.UnitOfWork = unitOfWork;
+        set = context.Set<T>();
+        UnitOfWork = unitOfWork;
     }
 
+    public IUnitOfWork UnitOfWork { get; }
+
     public void Add(T entity)
-        => this.context.Set<T>().Add(entity);
+    {
+        set.Add(entity);
+    }
 
     public void Update(T entity)
-        => this.context.Set<T>().Update(entity);
+    {
+        set.Update(entity);
+    }
 
     public void Remove(T entity)
-        => this.context.Set<T>().Remove(entity);
+    {
+        set.Remove(entity);
+    }
 
     public Task<T> FindAsync(int id)
-        => this.context.Set<T>().Where(x => x.Id == id).FirstAsync();
+    {
+        return set.Where(x => x.Id == id).FirstAsync();
+    }
 
     public Task<List<T>> ToListAsync()
-        => this.context.Set<T>().ToListAsync();
+    {
+        return set.ToListAsync();
+    }
 }

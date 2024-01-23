@@ -1,5 +1,6 @@
 using Cf.Dotnet.Architecture.Application.Behaviours;
 using Cf.Dotnet.Architecture.Application.Mappers;
+using Cf.Dotnet.Architecture.Infrastructure.EntityFramework.MediatR.Behaviours;
 using Cf.Dotnet.Database;
 using MediatR;
 
@@ -34,7 +35,7 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

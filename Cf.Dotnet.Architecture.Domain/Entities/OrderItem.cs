@@ -9,9 +9,7 @@ public class OrderItem : IEntity
     public OrderItem(int id, int productId, string productName, decimal unitPrice, int units = 1)
     {
         if (new UnitsSpecification().IsNotSatisfiedBy(units))
-        {
             throw new OrderingDomainException($"Invalid number of units: {units}");
-        }
 
         Id = id;
         ProductId = productId;
@@ -20,23 +18,21 @@ public class OrderItem : IEntity
         Units = units;
     }
 
-    public int Id { get; private set; }
-    
     public int Units { get; private set; }
 
-    public decimal UnitPrice { get; set; }
+    public decimal UnitPrice { get; private set; }
 
-    public string ProductName { get; set; }
+    public string ProductName { get; private set; }
 
-    public int ProductId { get; set; }
+    public int ProductId { get; private set; }
+
+    public int Id { get; }
 
     public void AddUnits(int nextUnits)
     {
         if (new UnitsSpecification().IsNotSatisfiedBy(nextUnits))
-        {
             throw new OrderingDomainException($"Invalid number of units: {nextUnits}");
-        }
 
-        this.Units += nextUnits;
+        Units += nextUnits;
     }
 }

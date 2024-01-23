@@ -7,18 +7,20 @@ public class Buyer : IEntity
     public Buyer(int id)
     {
     }
-    
+
     public Buyer(int id, string name)
     {
-        this.Id = id;
-        this.Name = name;
+        Id = id;
+        Name = name;
     }
-    
-    public int Id { get; private set; }
 
     public string Name { get; private set; }
     public decimal Balance { get; private set; }
 
+    public int Id { get; }
+
     public void UpdateBalance(decimal o)
-        => this.Balance -= o;
+    {
+        Balance -= o;
+    }
 }

@@ -7,21 +7,21 @@ namespace Cf.Dotnet.Architecture.Application.Controllers;
 public class OrderSummaryController : Controller
 {
     private readonly IMediator mediator;
-    
+
     public OrderSummaryController(IMediator mediator)
     {
         this.mediator = mediator;
     }
-    
+
     public async Task<IActionResult> Index()
     {
-       var ordersSummaries = await this.mediator.Send(new GetOrdersSummaryService());
-       return View(ordersSummaries);
+        var ordersSummaries = await mediator.Send(new GetOrdersSummaryService());
+        return View(ordersSummaries);
     }
 
-    public async Task<IActionResult> OnPost(int id)
+    public async Task<IActionResult> Confirm(int id)
     {
-        await this.mediator.Send(new ConfirmOrderService(id));
-        return RedirectToPage("./Index");
+        await mediator.Send(new ConfirmOrderService(id));
+        return RedirectToAction(nameof(Index));
     }
 }

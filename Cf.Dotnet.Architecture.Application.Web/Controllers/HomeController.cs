@@ -1,6 +1,4 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using Cf.Dotnet.Architecture.Application.Models;
 
 namespace Cf.Dotnet.Architecture.Application.Controllers;
 

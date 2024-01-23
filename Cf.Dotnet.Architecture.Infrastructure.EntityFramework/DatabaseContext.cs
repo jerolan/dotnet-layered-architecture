@@ -9,21 +9,24 @@ using Microsoft.EntityFrameworkCore.Storage;
 namespace Cf.Dotnet.Database;
 
 /// <summary>
-/// Contexto de base de datos para la aplicación, utilizado para interactuar con la base de datos.
-/// Hereda de DbContext, una clase de Entity Framework Core que facilita el mapeo entre objetos y registros de base de datos.
+///     Contexto de base de datos para la aplicación, utilizado para interactuar con la base de datos.
+///     Hereda de DbContext, una clase de Entity Framework Core que facilita el mapeo entre objetos y registros de base de
+///     datos.
 /// </summary>
 public class DatabaseContext : DbContext, IUnitOfWork, IDatabaseContext
 {
+    private IDbContextTransaction? currentTransaction;
+
     /// <summary>
-    /// Constructor sin parámetros para el contexto de base de datos.
-    /// Utilizado por herramientas de Entity Framework Core.
+    ///     Constructor sin parámetros para el contexto de base de datos.
+    ///     Utilizado por herramientas de Entity Framework Core.
     /// </summary>
     public DatabaseContext()
     {
     }
 
     /// <summary>
-    /// Constructor que permite la configuración de opciones para el contexto de base de datos.
+    ///     Constructor que permite la configuración de opciones para el contexto de base de datos.
     /// </summary>
     /// <param name="options">Opciones de configuración para el contexto.</param>
     public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options)
@@ -34,43 +37,32 @@ public class DatabaseContext : DbContext, IUnitOfWork, IDatabaseContext
     public DbSet<OrderItem> OrderItems { get; set; } = null!;
     public DbSet<Order> Orders { get; set; } = null!;
 
-    public bool HasActiveTransaction => this.currentTransaction != null;
-    private IDbContextTransaction? currentTransaction;
+    public bool HasActiveTransaction => currentTransaction != null;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.ApplyConfiguration(new OrderItemModelConfiguration());
-        modelBuilder.ApplyConfiguration(new OrderModelConfiguration());
-        modelBuilder.ApplyConfiguration(new BuyerModelConfiguration());
-    }
-    
     public async Task<IDbContextTransaction> BeginTransactionAsync()
     {
-        this.currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
-        return this.currentTransaction;
+        currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+        return currentTransaction;
     }
 
     public async Task CommitTransactionAsync()
     {
-        if (this.currentTransaction is null)
-        {
-            throw new InvalidOperationException("No active transaction");
-        }
+        if (currentTransaction is null) throw new InvalidOperationException("No active transaction");
 
         try
         {
             await SaveChangesAsync();
-            await this.currentTransaction.CommitAsync();
+            await currentTransaction.CommitAsync();
         }
         catch
         {
-            this.RollbackTransaction();
+            RollbackTransaction();
             throw;
         }
         finally
         {
-            this.currentTransaction.Dispose();
-            this.currentTransaction = null;
+            currentTransaction.Dispose();
+            currentTransaction = null;
         }
     }
 
@@ -78,15 +70,22 @@ public class DatabaseContext : DbContext, IUnitOfWork, IDatabaseContext
     {
         try
         {
-            this.currentTransaction?.Rollback();
+            currentTransaction?.Rollback();
         }
         finally
         {
-            if (this.currentTransaction is not null)
+            if (currentTransaction is not null)
             {
-                this.currentTransaction.Dispose();
-                this.currentTransaction = null;
+                currentTransaction.Dispose();
+                currentTransaction = null;
             }
         }
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfiguration(new OrderItemModelConfiguration());
+        modelBuilder.ApplyConfiguration(new OrderModelConfiguration());
+        modelBuilder.ApplyConfiguration(new BuyerModelConfiguration());
     }
 }

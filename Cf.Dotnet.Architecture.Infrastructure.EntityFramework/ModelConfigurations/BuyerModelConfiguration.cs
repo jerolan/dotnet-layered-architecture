@@ -9,11 +9,11 @@ public class BuyerModelConfiguration : IEntityTypeConfiguration<Buyer>
     public void Configure(EntityTypeBuilder<Buyer> builder)
     {
         var buyer = new Buyer(
-            id: 1,
-            name: "Test Buyer 1");
-        
+            1,
+            "Test Buyer 1");
+
         builder.HasData(buyer);
-        
+
         builder.Property<byte[]>("Version")
             .IsRowVersion();
     }

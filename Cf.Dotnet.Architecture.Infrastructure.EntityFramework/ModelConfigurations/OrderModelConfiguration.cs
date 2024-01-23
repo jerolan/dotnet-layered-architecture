@@ -9,12 +9,17 @@ public class OrderModelConfiguration : IEntityTypeConfiguration<Order>
     public void Configure(EntityTypeBuilder<Order> builder)
     {
         var order = new Order(
-            id: 1,
-            buyerId: 1);
+            1,
+            1);
 
         builder.HasData(order);
-        
+
         builder.Property<byte[]>("Version")
             .IsRowVersion();
+
+        builder.HasMany(b => b.OrderItems)
+            .WithOne();
+
+        builder.Navigation(b => b.OrderItems).AutoInclude();
     }
 }

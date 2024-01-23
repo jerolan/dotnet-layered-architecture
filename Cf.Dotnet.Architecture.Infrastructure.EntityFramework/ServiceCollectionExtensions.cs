@@ -8,10 +8,11 @@ namespace Cf.Dotnet.Database;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration, string sectionName = "SqliteConnection")
+    public static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration,
+        string sectionName = "SqliteConnection")
     {
-       services
-           .AddScoped<IDatabaseContext, DatabaseContext>()
+        services
+            .AddScoped<IDatabaseContext, DatabaseContext>()
             .AddDbContext<DatabaseContext>(config =>
             {
                 config.UseSqlite(configuration.GetConnectionString(sectionName));
@@ -19,13 +20,13 @@ public static class ServiceCollectionExtensions
 
         return services;
     }
-    
+
     public static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
         return services;
     }
-    
+
     public static IServiceCollection AddUnitOfWork(this IServiceCollection services)
     {
         services.AddScoped<IUnitOfWork, DatabaseContext>();

@@ -11,24 +11,24 @@ internal sealed class GetOrdersSummaryServiceHandler : IRequestHandler<GetOrders
 
     public GetOrdersSummaryServiceHandler(DatabaseContext context)
     {
-        this._context = context;
+        _context = context;
     }
 
     public async Task<List<OrdersSummary>> Handle(GetOrdersSummaryService request, CancellationToken cancellationToken)
     {
-       List<OrdersSummary> ordersSummaries = await this._context.Database.SqlQueryRaw<OrdersSummary>(
-           sql: """
-              select
-                  o.Id as Id,
-                  o.OrderStatus as Status,
-                  SUM(oi.UnitPrice * oi.Units) as Total,
-                  b.Name as BuyerName
-              from Orders o
-              join OrderItems oi on o.Id = oi.OrderId
-              join Buyers b on o.BuyerId = b.Id
-            """)
-           .ToListAsync(cancellationToken);
+        var ordersSummaries = await _context.Database.SqlQueryRaw<OrdersSummary>(
+                """
+                  select
+                      o.Id as Id,
+                      o.OrderStatus as Status,
+                      SUM(oi.UnitPrice * oi.Units) as Total,
+                      b.Name as BuyerName
+                  from Orders o
+                  join OrderItems oi on o.Id = oi.OrderId
+                  join Buyers b on o.BuyerId = b.Id
+                """)
+            .ToListAsync(cancellationToken);
 
-       return ordersSummaries;
+        return ordersSummaries;
     }
 }

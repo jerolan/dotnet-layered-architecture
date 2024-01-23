@@ -3,10 +3,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
-public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
+namespace Cf.Dotnet.Architecture.Infrastructure.EntityFramework.MediatR.Behaviours;
+
+public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
+    where TRequest : IRequest<TResponse>
 {
-    private readonly ILogger<TransactionBehavior<TRequest, TResponse>> logger;
     private readonly IDatabaseContext dbContext;
+    private readonly ILogger<TransactionBehavior<TRequest, TResponse>> logger;
 
     public TransactionBehavior(
         IDatabaseContext dbContext,
@@ -16,34 +19,33 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
         this.logger = logger;
     }
 
-    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
+    public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
+        CancellationToken cancellationToken)
     {
         var response = default(TResponse);
         var typeName = request.GetType().Name;
 
         try
         {
-            if (this.dbContext.HasActiveTransaction)
-            {
-                return await next();
-            }
+            if (dbContext.HasActiveTransaction) return await next();
 
-            var strategy = this.dbContext.Database.CreateExecutionStrategy();
+            var strategy = dbContext.Database.CreateExecutionStrategy();
 
             await strategy.ExecuteAsync(async () =>
             {
-                Guid transactionId;
-
-                await using var transaction = await this.dbContext.BeginTransactionAsync();
-                using (this.logger.BeginScope(new List<KeyValuePair<string, object>> { new("TransactionContext", transaction.TransactionId) }))
+                await using var transaction = await dbContext.BeginTransactionAsync();
+                using (logger.BeginScope(new List<KeyValuePair<string, object>>
+                           { new("TransactionContext", transaction.TransactionId) }))
                 {
-                    this.logger.LogInformation("Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
+                    logger.LogInformation("Begin transaction {TransactionId} for {CommandName} ({@Command})",
+                        transaction.TransactionId, typeName, request);
 
                     response = await next();
 
-                    this.logger.LogInformation("Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
+                    logger.LogInformation("Commit transaction {TransactionId} for {CommandName}",
+                        transaction.TransactionId, typeName);
 
-                    await this.dbContext.CommitTransactionAsync();
+                    await dbContext.CommitTransactionAsync();
                 }
             });
 
@@ -51,7 +53,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
         }
         catch (Exception ex)
         {
-            this.logger.LogError(ex, "Error Handling transaction for {CommandName} ({@Command})", typeName, request);
+            logger.LogError(ex, "Error Handling transaction for {CommandName} ({@Command})", typeName, request);
 
             throw;
         }
