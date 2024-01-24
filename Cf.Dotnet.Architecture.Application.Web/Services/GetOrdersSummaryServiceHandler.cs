@@ -26,6 +26,7 @@ internal sealed class GetOrdersSummaryServiceHandler : IRequestHandler<GetOrders
                   from Orders o
                   join OrderItems oi on o.Id = oi.OrderId
                   join Buyers b on o.BuyerId = b.Id
+                  group by o.Id, o.OrderStatus, b.Name
                 """)
             .ToListAsync(cancellationToken);
 

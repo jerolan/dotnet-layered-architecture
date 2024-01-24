@@ -1,4 +1,5 @@
 using Cf.Dotnet.Architecture.Domain.SeedWork;
+using Cf.DotnetArchitecture.SeedWork;
 using Microsoft.EntityFrameworkCore;
 
 namespace Cf.Dotnet.Database;

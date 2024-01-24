@@ -14,6 +14,8 @@ public class BuyerModelConfiguration : IEntityTypeConfiguration<Buyer>
 
         builder.HasData(buyer);
 
+        builder.Property(b => b.Balance).HasColumnType("decimal(18,2)").HasPrecision(18, 2);
+
         builder.Property<byte[]>("Version")
             .IsRowVersion();
     }

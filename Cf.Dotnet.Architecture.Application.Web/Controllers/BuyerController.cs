@@ -1,7 +1,7 @@
 using AutoMapper;
 using Cf.Dotnet.Architecture.Application.Models;
 using Cf.Dotnet.Architecture.Domain.Entities;
-using Cf.Dotnet.Architecture.Domain.SeedWork;
+using Cf.DotnetArchitecture.SeedWork;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Cf.Dotnet.Architecture.Application.Controllers;

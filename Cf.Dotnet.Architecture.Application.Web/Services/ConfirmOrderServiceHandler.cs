@@ -1,5 +1,5 @@
 using Cf.Dotnet.Architecture.Domain.Entities;
-using Cf.Dotnet.Architecture.Domain.SeedWork;
+using Cf.DotnetArchitecture.SeedWork;
 using MediatR;
 
 namespace Cf.Dotnet.Architecture.Application.Services;

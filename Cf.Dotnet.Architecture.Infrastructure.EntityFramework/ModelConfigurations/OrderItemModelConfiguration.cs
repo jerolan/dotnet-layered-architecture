@@ -12,10 +12,11 @@ public class OrderItemModelConfiguration : IEntityTypeConfiguration<OrderItem>
             1,
             1,
             "Test Product 1",
-            10,
-            1);
+            10);
 
         builder.HasData(orderItem);
+
+        builder.Property(b => b.UnitPrice).HasColumnType("decimal(18,2)").HasPrecision(18, 2);
 
         builder.Property<byte[]>("Version")
             .IsRowVersion();
