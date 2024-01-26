@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Linq.Expressions;
 using Cf.Dotnet.Architecture.Domain.SeedWork;
 using Cf.DotnetArchitecture.SeedWork;
 using Microsoft.EntityFrameworkCore;
@@ -40,4 +42,16 @@ public sealed class Repository<T> : IRepository<T> where T : class, IEntity
     {
         return set.ToListAsync();
     }
+
+    public IQueryable<T> Query => set;
+    
+    public Type ElementType => Query.ElementType;
+
+    public Expression Expression => Query.Expression;
+
+    public IQueryProvider Provider => Query.Provider;
+    
+    public IEnumerator<T> GetEnumerator() => set.AsEnumerable().GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => this.GetEnumerator();
 }

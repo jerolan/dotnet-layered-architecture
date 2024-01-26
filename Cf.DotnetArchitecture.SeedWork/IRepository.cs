@@ -6,7 +6,7 @@ namespace Cf.DotnetArchitecture.SeedWork;
 ///     Define una interfaz genérica para un repositorio que maneja entidades.
 /// </summary>
 /// <typeparam name="T">El tipo de entidad que el repositorio manejará.</typeparam>
-public interface IRepository<T> where T : IEntity
+public interface IRepository<T> : IQueryable<T> where T : IEntity
 {
     /// <summary>
     ///     Obtiene la unidad de trabajo asociada con el repositorio.
